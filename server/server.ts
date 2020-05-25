@@ -20,12 +20,20 @@ for await (const req of server) {
 
             const params: Array<string> = queryString.replace(/\?/, '').split('&');
 
-            const queryParams: { [key: string]: string } = {};
+            const queryParams: { [key: string]: string | Array<string> } = {};
             for (let param of params) {
                 const paramValue: Array<string> = param.split('=');
 
                 if (paramValue.length === 2) {
-                    queryParams[paramValue[0]] = paramValue[1];
+                    if (queryParams[paramValue[0]]) {
+                        if (typeof queryParams[paramValue[0]] === 'object') {
+                            (queryParams[paramValue[0]] as Array<string>).push(paramValue[1]);
+                        } else {
+                            queryParams[paramValue[0]] = [(queryParams[paramValue[0]] as string), paramValue[1]];
+                        }
+                    } else {
+                        queryParams[paramValue[0]] = paramValue[1];
+                    }
                 }
             }
 

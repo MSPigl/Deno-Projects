@@ -1,5 +1,5 @@
 import api from 'https://deno.land/x/api/index.ts';
-import { Capsule, CapsuleParams, Core, CoreParams, Dragon } from './models/index.ts';
+import { Capsule, CapsuleParams, Core, CoreParams, Dragon, HistoricalEvent } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
 
@@ -50,6 +50,22 @@ export async function getAllDragons(queryParams?: { id?: boolean, limit?: number
 
 export async function getDragonById(dragonId: string, id = false): Promise<Dragon> {
     const response = await api.get(`${BASE_PATH}/dragons/${dragonId}${id ? '?id=true' : ''}`);
+    return !!response['error'] ? Promise.reject(response['error']) : response;
+}
+
+export async function getAllHistoricalEvents(
+    queryParams?: {
+        id?: number, start?: string, end?: string, flight_number?: number,
+        limit?: number, offset?: number, sort?: 'id' | 'start' | 'end' | 'flight_number',
+        order?: 'asc' | 'desc'
+    }
+): Promise<Array<HistoricalEvent>> {
+    const querystring = buildQueryString(queryParams);
+    return api.get(`${BASE_PATH}/history${querystring}`);
+}
+
+export async function getHistoricalEventById(id: number): Promise<HistoricalEvent> {
+    const response = await api.get(`${BASE_PATH}/history/${id}`);
     return !!response['error'] ? Promise.reject(response['error']) : response;
 }
 

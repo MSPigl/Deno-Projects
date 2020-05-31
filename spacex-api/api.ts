@@ -18,6 +18,11 @@ export async function getUpcomingCapsules(queryParams?: CapsuleParams): Promise<
     return api.get(`${BASE_PATH}/capsules/upcoming${querystring}`);
 }
 
+export async function getPastCapsules(queryParams?: CapsuleParams): Promise<Array<Capsule>> {
+    const querystring = buildQueryString(queryParams);
+    return api.get(`${BASE_PATH}/capsules/past${querystring}`);
+}
+
 function buildQueryString(queryParams: any): string {
     let querystring = '';
 

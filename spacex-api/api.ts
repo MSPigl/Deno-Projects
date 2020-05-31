@@ -1,5 +1,5 @@
 import api from 'https://deno.land/x/api/index.ts';
-import { Capsule, CapsuleParams, Core, CoreParams, Dragon, HistoricalEvent } from './models/index.ts';
+import { Capsule, CapsuleParams, Core, CoreParams, Dragon, HistoricalEvent, CompanyInfo, ApiInfo } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
 
@@ -67,6 +67,14 @@ export async function getAllHistoricalEvents(
 export async function getHistoricalEventById(id: number): Promise<HistoricalEvent> {
     const response = await api.get(`${BASE_PATH}/history/${id}`);
     return !!response['error'] ? Promise.reject(response['error']) : response;
+}
+
+export async function getCompanyInfo(): Promise<CompanyInfo> {
+    return api.get(`${BASE_PATH}/info`);
+}
+
+export async function getApiInfo(): Promise<ApiInfo> {
+    return api.get(`${BASE_PATH}`);
 }
 
 function buildQueryString(queryParams: any): string {

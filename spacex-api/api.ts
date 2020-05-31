@@ -28,6 +28,21 @@ export async function getAllCores(queryParams?: CoreParams): Promise<Array<Core>
     return api.get(`${BASE_PATH}/cores${querystring}`);
 }
 
+export async function getCoreBySerial(serial: string, id = false): Promise<Core> {
+    const response = await api.get(`${BASE_PATH}/cores/${serial}${id ? '?id=true' : ''}`);
+    return !!response['error'] ? Promise.reject(response['error']) : response;
+}
+
+export async function getUpcomingCores(queryParams?: CoreParams): Promise<Array<Core>> {
+    const querystring = buildQueryString(queryParams);
+    return api.get(`${BASE_PATH}/cores/upcoming${querystring}`);
+}
+
+export async function getPastCores(queryParams?: CoreParams): Promise<Array<Core>> {
+    const querystring = buildQueryString(queryParams);
+    return api.get(`${BASE_PATH}/cores/past${querystring}`);
+}
+
 function buildQueryString(queryParams: any): string {
     let querystring = '';
 

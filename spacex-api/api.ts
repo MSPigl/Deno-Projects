@@ -6,7 +6,8 @@ import {
     LaunchPad,
     Mission,
     PayloadParams,
-    Payload
+    Payload,
+    Rocket
 } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
@@ -127,6 +128,14 @@ export async function getAllPayloads(queryParams?: PayloadParams): Promise<Array
 
 export async function getPayloadById(payloadId: string, id = false): Promise<Payload> {
     return fetchOne(`/payloads/${payloadId}`, id);
+}
+
+export async function getAllRockets(queryParams?: { id?: boolean, limit?: number, offser?: number }): Promise<Array<Rocket>> {
+    return fetchList('/rockets', queryParams);
+}
+
+export async function getRocketById(rocketId: string, id = false): Promise<Rocket> {
+    return fetchOne(`/rockets/${rocketId}`, id);
 }
 
 async function fetchOne(url: string, id = false): Promise<any> {

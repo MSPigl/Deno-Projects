@@ -1,6 +1,8 @@
 import api from 'https://deno.land/x/api/index.ts';
 import { Capsule } from './models/capsule.model.ts';
 
+const BASE_PATH = 'https://api.spacexdata.com/v3';
+
 export async function getAllCapsules(
     queryParams?: {
         capsule_serial?: string, // query by
@@ -29,5 +31,10 @@ export async function getAllCapsules(
         querystring = querystring.substring(0, querystring.length - 1);
     }
 
-    return api.get('https://api.spacexdata.com/v3/capsules' + querystring);
+    return api.get(`${BASE_PATH}/capsules${querystring}`);
+}
+
+export async function getCapsuleBySerial(serial: string, id = false): Promise<Capsule> {
+    const response = await api.get(`${BASE_PATH}/capsules/${serial}${id ? '?id=true' : ''}`);
+    return !!response['error'] ? Promise.reject(response['error']) : response;
 }

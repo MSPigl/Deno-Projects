@@ -1,7 +1,7 @@
 import { Payload } from './payload.model.ts';
 
 export interface Launch {
-    flight_number: number,
+  flight_number: number,
   mission_name: string,
   mission_id: Array<string>,
   launch_year: string,

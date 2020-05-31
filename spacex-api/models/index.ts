@@ -3,6 +3,7 @@ export * from './capsule.model.ts';
 export * from './capsule-params.model.ts';
 export * from './company-info.model.ts';
 export * from './core.model.ts';
+export * from './core-params.model.ts';
 export * from './dragon.model.ts';
 export * from './historical-event.model.ts';
 export * from './landing-pad.model.ts';

@@ -1,5 +1,5 @@
 import api from 'https://deno.land/x/api/index.ts';
-import { Capsule, CapsuleParams } from './models/index.ts';
+import { Capsule, CapsuleParams, Core, CoreParams } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
 
@@ -21,6 +21,11 @@ export async function getUpcomingCapsules(queryParams?: CapsuleParams): Promise<
 export async function getPastCapsules(queryParams?: CapsuleParams): Promise<Array<Capsule>> {
     const querystring = buildQueryString(queryParams);
     return api.get(`${BASE_PATH}/capsules/past${querystring}`);
+}
+
+export async function getAllCores(queryParams?: CoreParams): Promise<Array<Core>> {
+    const querystring = buildQueryString(queryParams);
+    return api.get(`${BASE_PATH}/cores${querystring}`);
 }
 
 function buildQueryString(queryParams: any): string {

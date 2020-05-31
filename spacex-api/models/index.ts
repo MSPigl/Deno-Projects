@@ -12,6 +12,7 @@ export * from './launch.model.ts';
 export * from './launch-params.model.ts';
 export * from './mission.model.ts';
 export * from './payload.model.ts';
+export * from './payload-params.model.ts';
 export * from './roadster.model.ts';
 export * from './rocket.model.ts';
 export * from './ship.model.ts';

@@ -4,7 +4,9 @@ import {
     HistoricalEvent, CompanyInfo, ApiInfo, LandingPad, Launch,
     LaunchParams,
     LaunchPad,
-    Mission
+    Mission,
+    PayloadParams,
+    Payload
 } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
@@ -117,6 +119,14 @@ export async function getAllMissions(queryParams?: { id?: boolean, limit?: numbe
 
 export async function getMissionById(missionId: string, id = false): Promise<Mission> {
     return fetchOne(`/missions/${missionId}`, id);
+}
+
+export async function getAllPayloads(queryParams?: PayloadParams): Promise<Array<Payload>> {
+    return fetchList('/payloads', queryParams);
+}
+
+export async function getPayloadById(payloadId: string, id = false): Promise<Payload> {
+    return fetchOne(`/payloads/${payloadId}`, id);
 }
 
 async function fetchOne(url: string, id = false): Promise<any> {

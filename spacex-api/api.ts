@@ -1,13 +1,9 @@
 import api from 'https://deno.land/x/api/index.ts';
 import {
     Capsule, CapsuleParams, Core, CoreParams, Dragon,
-    HistoricalEvent, CompanyInfo, ApiInfo, LandingPad, Launch,
-    LaunchParams,
-    LaunchPad,
-    Mission,
-    PayloadParams,
-    Payload,
-    Rocket
+    HistoricalEvent, CompanyInfo, ApiInfo, LandingPad,
+    Launch, LaunchParams, LaunchPad, Mission, Payload,
+    PayloadParams, Rocket, Roadster
 } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
@@ -136,6 +132,10 @@ export async function getAllRockets(queryParams?: { id?: boolean, limit?: number
 
 export async function getRocketById(rocketId: string, id = false): Promise<Rocket> {
     return fetchOne(`/rockets/${rocketId}`, id);
+}
+
+export async function getRoadster(): Promise<Roadster> {
+    return fetchOne('/roadster');
 }
 
 async function fetchOne(url: string, id = false): Promise<any> {

@@ -1,5 +1,9 @@
 import api from 'https://deno.land/x/api/index.ts';
-import { Capsule, CapsuleParams, Core, CoreParams, Dragon, HistoricalEvent, CompanyInfo, ApiInfo, LandingPad } from './models/index.ts';
+import {
+    Capsule, CapsuleParams, Core, CoreParams, Dragon,
+    HistoricalEvent, CompanyInfo, ApiInfo, LandingPad, Launch,
+    LaunchParams
+} from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
 
@@ -71,6 +75,10 @@ export async function getAllLandingPads(queryParams?: { id?: number, limit?: num
 
 export async function getLandingPadById(padId: string, id = false): Promise<LandingPad> {
     return fetchOne(`/landpads/${padId}`, id);
+}
+
+export async function getAllLaunches(queryParams?: LaunchParams): Promise<Array<Launch>> {
+    return fetchList('/launches', queryParams);
 }
 
 async function fetchOne(url: string, id = false): Promise<any> {

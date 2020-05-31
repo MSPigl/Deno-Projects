@@ -9,6 +9,7 @@ export * from './historical-event.model.ts';
 export * from './landing-pad.model.ts';
 export * from './launch-pad.model.ts';
 export * from './launch.model.ts';
+export * from './launch-params.model.ts';
 export * from './mission.model.ts';
 export * from './payload.model.ts';
 export * from './roadster.model.ts';

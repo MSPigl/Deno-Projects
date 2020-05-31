@@ -1,5 +1,5 @@
 import api from 'https://deno.land/x/api/index.ts';
-import { Capsule, CapsuleParams, Core, CoreParams } from './models/index.ts';
+import { Capsule, CapsuleParams, Core, CoreParams, Dragon } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
 
@@ -41,6 +41,16 @@ export async function getUpcomingCores(queryParams?: CoreParams): Promise<Array<
 export async function getPastCores(queryParams?: CoreParams): Promise<Array<Core>> {
     const querystring = buildQueryString(queryParams);
     return api.get(`${BASE_PATH}/cores/past${querystring}`);
+}
+
+export async function getAllDragons(queryParams?: { id?: boolean, limit?: number, offset?: number }): Promise<Array<Dragon>> {
+    const querystring = buildQueryString(queryParams);
+    return api.get(`${BASE_PATH}/dragons${querystring}`);
+}
+
+export async function getDragonById(dragonId: string, id = false): Promise<Dragon> {
+    const response = await api.get(`${BASE_PATH}/dragons/${dragonId}${id ? '?id=true' : ''}`);
+    return !!response['error'] ? Promise.reject(response['error']) : response;
 }
 
 function buildQueryString(queryParams: any): string {

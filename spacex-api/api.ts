@@ -3,7 +3,8 @@ import {
     Capsule, CapsuleParams, Core, CoreParams, Dragon,
     HistoricalEvent, CompanyInfo, ApiInfo, LandingPad, Launch,
     LaunchParams,
-    LaunchPad
+    LaunchPad,
+    Mission
 } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
@@ -108,6 +109,14 @@ export async function getAllLaunchPads(queryParams?: { id?: boolean, limit?: num
 
 export async function getLaunchPadBySiteId(siteId: string, id = false): Promise<LaunchPad> {
     return fetchOne(`/launchpads/${siteId}`, id);
+}
+
+export async function getAllMissions(queryParams?: { id?: boolean, limit?: number, offser?: number }): Promise<Array<Mission>> {
+    return fetchList('/missions', queryParams);
+}
+
+export async function getMissionById(missionId: string, id = false): Promise<Mission> {
+    return fetchOne(`/missions/${missionId}`, id);
 }
 
 async function fetchOne(url: string, id = false): Promise<any> {

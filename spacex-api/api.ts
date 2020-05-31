@@ -4,53 +4,43 @@ import { Capsule, CapsuleParams, Core, CoreParams, Dragon, HistoricalEvent, Comp
 const BASE_PATH = 'https://api.spacexdata.com/v3';
 
 export async function getAllCapsules(queryParams?: CapsuleParams): Promise<Array<Capsule>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/capsules${querystring}`);
+    return fetchList('/capsules', queryParams);
 }
 
 export async function getCapsuleBySerial(serial: string, id = false): Promise<Capsule> {
-    const response = await api.get(`${BASE_PATH}/capsules/${serial}${id ? '?id=true' : ''}`);
-    return !!response['error'] ? Promise.reject(response['error']) : response;
+    return fetchOne(`/capsules/${serial}`, id);
 }
 
 export async function getUpcomingCapsules(queryParams?: CapsuleParams): Promise<Array<Capsule>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/capsules/upcoming${querystring}`);
+    return fetchList('/capsules/upcoming', queryParams);
 }
 
 export async function getPastCapsules(queryParams?: CapsuleParams): Promise<Array<Capsule>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/capsules/past${querystring}`);
+    return fetchList('/capsules/past', queryParams);
 }
 
 export async function getAllCores(queryParams?: CoreParams): Promise<Array<Core>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/cores${querystring}`);
+    return fetchList('/cores', queryParams);
 }
 
 export async function getCoreBySerial(serial: string, id = false): Promise<Core> {
-    const response = await api.get(`${BASE_PATH}/cores/${serial}${id ? '?id=true' : ''}`);
-    return !!response['error'] ? Promise.reject(response['error']) : response;
+    return fetchOne(`/cores/${serial}`, id);
 }
 
 export async function getUpcomingCores(queryParams?: CoreParams): Promise<Array<Core>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/cores/upcoming${querystring}`);
+    return fetchList('/cores/upcoming', queryParams);
 }
 
 export async function getPastCores(queryParams?: CoreParams): Promise<Array<Core>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/cores/past${querystring}`);
+    return fetchList('/cores/past', queryParams);
 }
 
 export async function getAllDragons(queryParams?: { id?: boolean, limit?: number, offset?: number }): Promise<Array<Dragon>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/dragons${querystring}`);
+    return fetchList('/dragons', queryParams);
 }
 
 export async function getDragonById(dragonId: string, id = false): Promise<Dragon> {
-    const response = await api.get(`${BASE_PATH}/dragons/${dragonId}${id ? '?id=true' : ''}`);
-    return !!response['error'] ? Promise.reject(response['error']) : response;
+    return fetchOne(`/dragons/${dragonId}`, id);
 }
 
 export async function getAllHistoricalEvents(
@@ -60,31 +50,37 @@ export async function getAllHistoricalEvents(
         order?: 'asc' | 'desc'
     }
 ): Promise<Array<HistoricalEvent>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/history${querystring}`);
+    return fetchList('/history', queryParams);
 }
 
 export async function getHistoricalEventById(eventId: number, id = false): Promise<HistoricalEvent> {
-    const response = await api.get(`${BASE_PATH}/history/${eventId}${id ? '?id=true' : ''}`);
-    return !!response['error'] ? Promise.reject(response['error']) : response;
+    return fetchOne(`/history/${eventId}`, id);
 }
 
 export async function getCompanyInfo(): Promise<CompanyInfo> {
-    return api.get(`${BASE_PATH}/info`);
+    return fetchOne('/info');
 }
 
 export async function getApiInfo(): Promise<ApiInfo> {
-    return api.get(`${BASE_PATH}`);
+    return fetchOne('');
 }
 
 export async function getAllLandingPads(queryParams?: { id?: number, limit?: number, offset?: number }): Promise<Array<LandingPad>> {
-    const querystring = buildQueryString(queryParams);
-    return api.get(`${BASE_PATH}/landpads${querystring}`);
+    return fetchList('/landpads', queryParams);
 }
 
 export async function getLandingPadById(padId: string, id = false): Promise<LandingPad> {
-    const response = await api.get(`${BASE_PATH}/landpads/${padId}${id ? '?id=true' : ''}`);
+    return fetchOne(`/landpads/${padId}`, id);
+}
+
+async function fetchOne(url: string, id = false): Promise<any> {
+    const response = await api.get(`${BASE_PATH}${url}${id ? '?id=true' : ''}`);
     return !!response['error'] ? Promise.reject(response['error']) : response;
+}
+
+async function fetchList(url: string, queryParams?: any): Promise<Array<any>> {
+    const querystring = buildQueryString(queryParams);
+    return api.get(`${BASE_PATH}${url}${querystring}`);
 }
 
 function buildQueryString(queryParams: any): string {

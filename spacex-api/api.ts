@@ -2,7 +2,8 @@ import api from 'https://deno.land/x/api/index.ts';
 import {
     Capsule, CapsuleParams, Core, CoreParams, Dragon,
     HistoricalEvent, CompanyInfo, ApiInfo, LandingPad, Launch,
-    LaunchParams
+    LaunchParams,
+    LaunchPad
 } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
@@ -99,6 +100,14 @@ export async function getLatestLaunch(id = false): Promise<Launch> {
 
 export async function getNextLaunch(id = false): Promise<Launch> {
     return fetchOne('/launches/next', id);
+}
+
+export async function getAllLaunchPads(queryParams?: { id?: boolean, limit?: number, offser?: number }): Promise<Array<LaunchPad>> {
+    return fetchList('/launchpads', queryParams);
+}
+
+export async function getLaunchPadBySiteId(siteId: string, id = false): Promise<LaunchPad> {
+    return fetchOne(`/launchpads/${siteId}`, id);
 }
 
 async function fetchOne(url: string, id = false): Promise<any> {

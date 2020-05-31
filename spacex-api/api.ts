@@ -1,5 +1,5 @@
 import api from 'https://deno.land/x/api/index.ts';
-import { Capsule, CapsuleParams, Core, CoreParams, Dragon, HistoricalEvent, CompanyInfo, ApiInfo } from './models/index.ts';
+import { Capsule, CapsuleParams, Core, CoreParams, Dragon, HistoricalEvent, CompanyInfo, ApiInfo, LandingPad } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
 
@@ -64,8 +64,8 @@ export async function getAllHistoricalEvents(
     return api.get(`${BASE_PATH}/history${querystring}`);
 }
 
-export async function getHistoricalEventById(id: number): Promise<HistoricalEvent> {
-    const response = await api.get(`${BASE_PATH}/history/${id}`);
+export async function getHistoricalEventById(eventId: number, id = false): Promise<HistoricalEvent> {
+    const response = await api.get(`${BASE_PATH}/history/${eventId}${id ? '?id=true' : ''}`);
     return !!response['error'] ? Promise.reject(response['error']) : response;
 }
 
@@ -75,6 +75,16 @@ export async function getCompanyInfo(): Promise<CompanyInfo> {
 
 export async function getApiInfo(): Promise<ApiInfo> {
     return api.get(`${BASE_PATH}`);
+}
+
+export async function getAllLandingPads(queryParams?: { id?: number, limit?: number, offset?: number }): Promise<Array<LandingPad>> {
+    const querystring = buildQueryString(queryParams);
+    return api.get(`${BASE_PATH}/landpads${querystring}`);
+}
+
+export async function getLandingPadById(padId: string, id = false): Promise<LandingPad> {
+    const response = await api.get(`${BASE_PATH}/landpads/${padId}${id ? '?id=true' : ''}`);
+    return !!response['error'] ? Promise.reject(response['error']) : response;
 }
 
 function buildQueryString(queryParams: any): string {

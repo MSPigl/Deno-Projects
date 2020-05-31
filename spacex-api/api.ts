@@ -81,6 +81,26 @@ export async function getAllLaunches(queryParams?: LaunchParams): Promise<Array<
     return fetchList('/launches', queryParams);
 }
 
+export async function getLaunchByFlightNumber(flightNumber: number, id = false): Promise<Launch> {
+    return fetchOne(`/launches/${flightNumber}`, id);
+}
+
+export async function getPastLaunches(queryParams?: LaunchParams): Promise<Array<Launch>> {
+    return fetchList('/launches/past', queryParams);
+}
+
+export async function getUpcomingLaunches(queryParams?: LaunchParams): Promise<Array<Launch>> {
+    return fetchList('/launches/upcoming', queryParams);
+}
+
+export async function getLatestLaunch(id = false): Promise<Launch> {
+    return fetchOne('/launches/latest', id);
+}
+
+export async function getNextLaunch(id = false): Promise<Launch> {
+    return fetchOne('/launches/next', id);
+}
+
 async function fetchOne(url: string, id = false): Promise<any> {
     const response = await api.get(`${BASE_PATH}${url}${id ? '?id=true' : ''}`);
     return !!response['error'] ? Promise.reject(response['error']) : response;

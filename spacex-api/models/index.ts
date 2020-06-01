@@ -16,4 +16,5 @@ export * from './payload-params.model.ts';
 export * from './roadster.model.ts';
 export * from './rocket.model.ts';
 export * from './ship.model.ts';
+export * from './ship-params.model.ts';
 export * from './thruster.model.ts';

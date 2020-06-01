@@ -3,7 +3,7 @@ import {
     Capsule, CapsuleParams, Core, CoreParams, Dragon,
     HistoricalEvent, CompanyInfo, ApiInfo, LandingPad,
     Launch, LaunchParams, LaunchPad, Mission, Payload,
-    PayloadParams, Rocket, Roadster
+    PayloadParams, Rocket, Roadster, Ship, ShipParams
 } from './models/index.ts';
 
 const BASE_PATH = 'https://api.spacexdata.com/v3';
@@ -136,6 +136,14 @@ export async function getRocketById(rocketId: string, id = false): Promise<Rocke
 
 export async function getRoadster(): Promise<Roadster> {
     return fetchOne('/roadster');
+}
+
+export async function getAllShips(queryParams?: ShipParams): Promise<Array<Ship>> {
+    return fetchList('/ships', queryParams);
+}
+
+export async function getShipById(shipId: string, id = false): Promise<Ship> {
+    return fetchOne(`/ships/${shipId}`, id);
 }
 
 async function fetchOne(url: string, id = false): Promise<any> {
